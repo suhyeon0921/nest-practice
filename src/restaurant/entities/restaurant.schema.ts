@@ -1,17 +1,21 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
-export interface IRestaurant extends Document {
+export type RestaurantDocument = Restaurant & Document;
+
+@Schema()
+export class Restaurant {
+  @Prop({ required: true })
   name: string;
+
+  @Prop({ required: true })
   category: string;
-  createAt: Date;
-  deleteAt: Date | null;
+
+  @Prop({ default: Date.now })
+  createdAt: Date;
+
+  @Prop({ default: false })
+  isDeleted: boolean;
 }
 
-const RestaurantSchema = new Schema<IRestaurant>({
-  name: { type: String, required: true },
-  category: { type: String, required: true },
-  createAt: { type: Date, default: Date.now },
-  deleteAt: { type: Date, default: null },
-});
-
-export default mongoose.model<IRestaurant>('Restaurant', RestaurantSchema);
+export const RestaurantSchema = SchemaFactory.createForClass(Restaurant);
