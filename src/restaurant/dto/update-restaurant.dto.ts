@@ -1,3 +1,3 @@
-export default class UpdateRestaurantDto {
+export class UpdateRestaurantDto {
   readonly category: string;
 }
